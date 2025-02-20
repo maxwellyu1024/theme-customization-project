@@ -106,7 +106,6 @@ export const themes: Record<ColorTheme, ThemeConfig> = {
 
 export const themeNames: { name: string; value: ColorTheme }[] = [
   { name: "Neutral", value: "neutral" },
-  { name: "Rose", value: "rose" },
   { name: "Red", value: "red" },
   { name: "Orange", value: "orange" },
   { name: "Amber", value: "amber" },
@@ -123,6 +122,7 @@ export const themeNames: { name: string; value: ColorTheme }[] = [
   { name: "Purple", value: "purple" },
   { name: "Fuchsia", value: "fuchsia" },
   { name: "Pink", value: "pink" },
+  { name: "Rose", value: "rose" },
   { name: "Slate", value: "slate" },
   { name: "Gray", value: "gray" },
   { name: "Zinc", value: "zinc" },

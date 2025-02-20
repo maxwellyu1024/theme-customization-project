@@ -29,11 +29,13 @@ export default function RootLayout({
                 <NavigationMenuList>
                   <NavigationMenuItem>
                     <Link href="/" legacyBehavior passHref>
+                    
                       <NavigationMenuLink className="px-3 py-2 hover:bg-accent rounded-md">Home</NavigationMenuLink>
                     </Link>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
                     <Link href="/colors" legacyBehavior passHref>
+                    
                       <NavigationMenuLink className="px-3 py-2 hover:bg-accent rounded-md">Colors</NavigationMenuLink>
                     </Link>
                   </NavigationMenuItem>

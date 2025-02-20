@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils"
 import React from "react"
+
 const colorThemes = [
   { name: "Red", value: "red" },
   { name: "Orange", value: "orange" },
@@ -29,16 +30,14 @@ const steps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
 
 export default function ColorsPage() {
   return (
-    <div className="container mx-auto p-4">
-      <div className="prose dark:prose-invert mb-8">
-        <h1>Color Palette</h1>
-        <p>
-          Every color in the default palette includes 11 steps, with 50 being the lightest, and 950 being the darkest:
-        </p>
+    <div className="container mx-auto p-4 max-w-2xl mb-20">
+      <div className="prose dark:prose-invert mb-4 text-center">
+        <h1 className="text-2xl font-bold mb-2">Color Palette</h1>
+        <p className="text-sm">Every color includes 11 steps, from 50 (lightest) to 950 (darkest).</p>
       </div>
 
-      <div className="grid grid-cols-[auto_minmax(0,_1fr)] items-center gap-1">
-        <div className=" col-start-2 grid grid-cols-11 justify-items-center gap-1 bg-background font-medium text-foreground">
+      <div className="grid grid-cols-[auto_1fr] items-center gap-2">
+        <div className="col-start-2 grid grid-cols-11 justify-items-center gap-2 text-sm font-medium text-foreground mb-1">
           {steps.map((step) => (
             <div key={step}>{step}</div>
           ))}
@@ -46,25 +45,21 @@ export default function ColorsPage() {
 
         {colorThemes.map((theme) => (
           <React.Fragment key={theme.value}>
-            <p className="font-medium text-foreground ">{theme.name}</p>
-            <div className="grid grid-cols-11 gap-1">
+            <p className="text-sm font-medium text-foreground pr-10">{theme.name}</p>
+            <div className="grid grid-cols-11 gap-2">
               {steps.map((step) => (
-                <div
-                  key={`${theme.value}-${step}`}
-                  className={cn("h-12 w-12  rounded-md", `bg-${theme.value}-${step}`)}
-                  
-                />
+                <div key={`${theme.value}-${step}`} className={cn("h-8 w-8 rounded-sm border border-gray-200", `bg-${theme.value}-${step}`)} />
               ))}
             </div>
           </React.Fragment>
         ))}
       </div>
 
-      <div className="prose dark:prose-invert mt-8">
+      <div className="prose dark:prose-invert mt-4 text-center text-sm">
         <p>
-          The entire color palette is available across all color related utilities, including things like{" "}
-          <code>background-color</code>, <code>border-color</code>, <code>fill</code>, <code>caret-color</code>, and
-          many more.
+          This color palette is available for all color-related utilities, including{" "}
+          <code className="text-xs">background-color</code>, <code className="text-xs">border-color</code>,{" "}
+          <code className="text-xs">fill</code>, <code className="text-xs">caret-color</code>, and more.
         </p>
       </div>
     </div>
