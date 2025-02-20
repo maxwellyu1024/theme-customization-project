@@ -45,27 +45,6 @@ module.exports = {
                     DEFAULT: 'hsl(var(--card))',
                     foreground: 'hsl(var(--card-foreground))',
                 },
-                red: {
-                    50: 'hsl(var(--red-50))',
-                    100: 'hsl(var(--red-100))',
-                    200: 'hsl(var(--red-200))',
-                    300: 'hsl(var(--red-300))',
-                    400: 'hsl(var(--red-400))',
-                    500: 'hsl(var(--red-500))',
-                    600: 'hsl(var(--red-600))',
-                    700: 'hsl(var(--red-700))',
-                    800: 'hsl(var(--red-800))',
-                    900: 'hsl(var(--red-900))',
-                    950: 'hsl(var(--red-950))',
-                },
-                // Add similar entries for all other colors...
-            },
-            typography: {
-                DEFAULT: {
-                    css: {
-                        maxWidth: 'none',
-                    },
-                },
             },
             borderRadius: {
                 lg: 'var(--radius)',
@@ -88,5 +67,14 @@ module.exports = {
             },
         },
     },
-    plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
+    plugins: [require('tailwindcss-animate')],
+    safelist: [
+        {
+          pattern: /(bg|text|border)-(primary|secondary|background|foreground)/,
+        },
+        {
+          pattern:
+            /(bg|text)-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone)-(50|100|200|300|400|500|600|700|800|900|950)/,
+        },
+      ],
 }
