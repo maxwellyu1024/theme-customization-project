@@ -15,9 +15,12 @@ export default function RootLayout({
       <head />
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <div className="flex justify-end space-x-2 p-4">
-            <ThemeCustomizer />
-            <ModeToggle />
+          <div className="flex justify-between items-center p-4 bg-background border-b">
+            <h1 className="text-2xl font-bold">Theme Customization Demo</h1>
+            <div className="flex gap-4">
+              <ModeToggle />
+              <ThemeCustomizer />
+            </div>
           </div>
           {children}
         </ThemeProvider>
