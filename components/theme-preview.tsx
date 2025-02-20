@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { themeNames } from "@/themes"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 export function ThemePreview() {
   const { setColorTheme, colorTheme, applyTheme, theme } = useTheme()
@@ -12,7 +13,8 @@ export function ThemePreview() {
   const isDarkMode = theme === "dark"
 
   return (
-    <div className="flex flex-wrap justify-center gap-4 p-4 bg-background">
+    <ScrollArea className="h-[600px]">
+    <div className="flex flex-wrap gap-4 p-4 bg-background">
       {themeNames.map((themeOption) => {
         const themeColors = applyTheme(themeOption.value, isDarkMode)
         const styleObject = Object.entries(themeColors).reduce(
@@ -62,6 +64,7 @@ export function ThemePreview() {
         )
       })}
     </div>
+    </ScrollArea>
   )
 }
 

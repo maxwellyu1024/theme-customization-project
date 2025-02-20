@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function Home() {
   return (
-    <main className="container mx-auto p-4">
+    <main className="p-4 w-full">
       <Tabs defaultValue="preview" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="preview">Theme Preview</TabsTrigger>
