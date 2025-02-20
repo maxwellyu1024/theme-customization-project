@@ -1,7 +1,9 @@
 import type React from "react"
 import { ThemeProvider } from "@/components/theme-provider"
-import { ThemeSwitcher } from "@/components/theme-switcher"
+import { ModeToggle } from "@/components/mode-toggle"
 import { ThemeCustomizer } from "@/components/theme-customizer"
+
+import './globals.css'
 
 export default function RootLayout({
   children,
@@ -15,7 +17,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <div className="flex justify-end space-x-2 p-4">
             <ThemeCustomizer />
-            <ThemeSwitcher />
+            <ModeToggle />
           </div>
           {children}
         </ThemeProvider>
@@ -26,8 +28,3 @@ export default function RootLayout({
 
 
 
-import './globals.css'
-
-export const metadata = {
-      generator: 'v0.dev'
-    };

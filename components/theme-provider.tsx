@@ -2,13 +2,13 @@
 
 import type React from "react"
 
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useState, useCallback } from "react"
 import { neutralTheme } from "@/themes/neutral"
 import { roseTheme } from "@/themes/rose"
 // Import other theme files as needed
 
 type Theme = "light" | "dark" | "system"
-type ColorTheme = "neutral" | "rose" | "green" | "blue"
+type ColorTheme = "neutral" | "rose" // Add other theme names here
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -22,6 +22,7 @@ type ThemeProviderState = {
   colorTheme: ColorTheme
   setTheme: (theme: Theme) => void
   setColorTheme: (colorTheme: ColorTheme) => void
+  applyTheme: (colorTheme: ColorTheme, isDark: boolean) => Record<string, string>
 }
 
 const initialState: ThemeProviderState = {
@@ -29,6 +30,7 @@ const initialState: ThemeProviderState = {
   colorTheme: "neutral",
   setTheme: () => null,
   setColorTheme: () => null,
+  applyTheme: () => ({}),
 }
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
@@ -45,41 +47,38 @@ export function ThemeProvider({
     () => (localStorage.getItem(`${storageKey}-color`) as ColorTheme) || defaultColorTheme,
   )
 
+  const applyTheme = useCallback((colorTheme: ColorTheme, isDark: boolean) => {
+    let themeObject
+    switch (colorTheme) {
+      case "neutral":
+        themeObject = neutralTheme[isDark ? "dark" : "light"]
+        break
+      case "rose":
+        themeObject = roseTheme[isDark ? "dark" : "light"]
+        break
+      // Add cases for other themes
+      default:
+        themeObject = neutralTheme[isDark ? "dark" : "light"]
+    }
+    return themeObject
+  }, [])
+
   useEffect(() => {
     const root = window.document.documentElement
-
     root.classList.remove("light", "dark")
 
     if (theme === "system") {
       const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-
       root.classList.add(systemTheme)
-      return
+    } else {
+      root.classList.add(theme)
     }
 
-    root.classList.add(theme)
-  }, [theme])
-
-  useEffect(() => {
-    const root = window.document.documentElement
-    let themeObject
-
-    switch (colorTheme) {
-      case "neutral":
-        themeObject = neutralTheme[theme === "dark" ? "dark" : "light"]
-        break
-      case "rose":
-        themeObject = roseTheme[theme === "dark" ? "dark" : "light"]
-        break
-      // Add cases for other themes
-      default:
-        themeObject = neutralTheme[theme === "dark" ? "dark" : "light"]
-    }
-
+    const themeObject = applyTheme(colorTheme, root.classList.contains("dark"))
     Object.entries(themeObject).forEach(([key, value]) => {
       root.style.setProperty(`--${key}`, value)
     })
-  }, [theme, colorTheme])
+  }, [theme, colorTheme, applyTheme])
 
   const value = {
     theme,
@@ -92,6 +91,7 @@ export function ThemeProvider({
       localStorage.setItem(`${storageKey}-color`, colorTheme)
       setColorTheme(colorTheme)
     },
+    applyTheme,
   }
 
   return (
@@ -103,9 +103,9 @@ export function ThemeProvider({
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext)
-
-  if (context === undefined) throw new Error("useTheme must be used within a ThemeProvider")
-
+  if (context === undefined) {
+    throw new Error("useTheme must be used within a ThemeProvider")
+  }
   return context
 }
 
