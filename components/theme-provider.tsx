@@ -1,14 +1,8 @@
 "use client"
 
 import type React from "react"
-
 import { createContext, useContext, useEffect, useState, useCallback } from "react"
-import { neutralTheme } from "@/themes/neutral"
-import { roseTheme } from "@/themes/rose"
-// Import other theme files as needed
-
-type Theme = "light" | "dark" | "system"
-type ColorTheme = "neutral" | "rose" // Add other theme names here
+import { type Theme, type ColorTheme, type ThemeColors, getThemeColors } from "@/themes"
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -22,7 +16,7 @@ type ThemeProviderState = {
   colorTheme: ColorTheme
   setTheme: (theme: Theme) => void
   setColorTheme: (colorTheme: ColorTheme) => void
-  applyTheme: (colorTheme: ColorTheme, isDark: boolean) => Record<string, string>
+  applyTheme: (colorTheme: ColorTheme, isDark: boolean) => ThemeColors
 }
 
 const initialState: ThemeProviderState = {
@@ -30,7 +24,7 @@ const initialState: ThemeProviderState = {
   colorTheme: "neutral",
   setTheme: () => null,
   setColorTheme: () => null,
-  applyTheme: () => ({}),
+  applyTheme: () => ({}) as ThemeColors,
 }
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
@@ -48,19 +42,7 @@ export function ThemeProvider({
   )
 
   const applyTheme = useCallback((colorTheme: ColorTheme, isDark: boolean) => {
-    let themeObject
-    switch (colorTheme) {
-      case "neutral":
-        themeObject = neutralTheme[isDark ? "dark" : "light"]
-        break
-      case "rose":
-        themeObject = roseTheme[isDark ? "dark" : "light"]
-        break
-      // Add cases for other themes
-      default:
-        themeObject = neutralTheme[isDark ? "dark" : "light"]
-    }
-    return themeObject
+    return getThemeColors(colorTheme, isDark ? "dark" : "light")
   }, [])
 
   useEffect(() => {
@@ -74,8 +56,8 @@ export function ThemeProvider({
       root.classList.add(theme)
     }
 
-    const themeObject = applyTheme(colorTheme, root.classList.contains("dark"))
-    Object.entries(themeObject).forEach(([key, value]) => {
+    const themeColors = applyTheme(colorTheme, root.classList.contains("dark"))
+    Object.entries(themeColors).forEach(([key, value]) => {
       root.style.setProperty(`--${key}`, value)
     })
   }, [theme, colorTheme, applyTheme])

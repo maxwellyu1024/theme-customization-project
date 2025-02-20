@@ -4,12 +4,7 @@ import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
-
-const themes = [
-  { name: "Neutral", value: "neutral" },
-  { name: "Rose", value: "rose" },
-  // Add more themes here as you create them
-]
+import { themeNames } from "@/themes"
 
 export function ThemePreview() {
   const { setColorTheme, colorTheme, applyTheme, theme } = useTheme()
@@ -18,9 +13,9 @@ export function ThemePreview() {
 
   return (
     <div className="flex flex-wrap justify-center gap-4 p-4 bg-background">
-      {themes.map((themeOption) => {
-        const themeStyles = applyTheme(themeOption.value as any, isDarkMode)
-        const styleObject = Object.entries(themeStyles).reduce(
+      {themeNames.map((themeOption) => {
+        const themeColors = applyTheme(themeOption.value, isDarkMode)
+        const styleObject = Object.entries(themeColors).reduce(
             (acc, [key, value]) => {
               acc[`--${key}`] = value
               return acc
@@ -34,7 +29,7 @@ export function ThemePreview() {
             className={`w-72 cursor-pointer ${
               colorTheme === themeOption.value ? "ring-2 ring-primary" : ""
             } ${isDarkMode ? "dark" : ""}`}
-            onClick={() => setColorTheme(themeOption.value as any)}
+            onClick={() => setColorTheme(themeOption.value)}
             style={styleObject}
           >
             <CardContent className="p-4">
