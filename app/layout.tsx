@@ -41,7 +41,8 @@ export default function RootLayout({
       <head />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+      >
+        <ThemeProvider defaultTheme="system"  >
           <div className="flex justify-between items-center p-4 bg-background border-b">
             <div className="flex items-center gap-6">
               <h1 className="text-2xl font-bold">Theme Customization</h1>
