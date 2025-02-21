@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { themeNames } from "@/themes"
 
 export default function Home() {
-  const { colorTheme, setColorTheme } = useTheme()
+  const { colorTheme } = useTheme()
   const theme = themeNames.find((theme) => theme.value === colorTheme)
   return (
     <Tabs defaultValue="theme" className="w-full shadow-xl bg-background">
