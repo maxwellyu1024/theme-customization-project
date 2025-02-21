@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, Paintbrush } from "lucide-react"
+import { Check, PaintBucket } from "lucide-react"
 import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -14,7 +14,7 @@ export function ThemeCustomizer() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
-          <Paintbrush className="h-[1.2rem] w-[1.2rem]" />
+          <PaintBucket className="h-[1.2rem] w-[1.2rem]" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>

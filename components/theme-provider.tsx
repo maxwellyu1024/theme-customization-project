@@ -4,6 +4,7 @@ import type React from "react"
 import { createContext, useContext, useEffect, useState, useCallback } from "react"
 import { type Theme, type ColorTheme, type ThemeColors, getThemeColors } from "@/themes"
 // import { storage } from "@/lib/utils"
+import NProgress from "nprogress"
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -50,7 +51,6 @@ export function ThemeProvider({
   useEffect(() => {
     // Ensure this runs only on the client-side
     setIsClient(true)
-
     // Hydration safety check: useEffect is only called after component mounts
     const storedTheme = localStorage.getItem(`${storageKey}-mode`) as Theme
     const storedColorTheme = localStorage.getItem(`${storageKey}-color`) as ColorTheme
@@ -77,6 +77,16 @@ export function ThemeProvider({
     Object.entries(themeColors).forEach(([key, value]) => {
       root.style.setProperty(`--${key}`, value)
     })
+    root.classList.remove("no-fouc")
+
+    // Start NProgress
+    NProgress.start()
+
+    // Simulate some delay to show the progress bar (remove this in production)
+    setTimeout(() => {
+      NProgress.done()
+    }, 500)
+
   }, [theme, colorTheme, applyTheme, isClient])
 
   // Set theme and color theme, and update localStorage
