@@ -4,7 +4,7 @@ import type React from "react"
 import { createContext, useContext, useEffect, useState, useCallback } from "react"
 import { type Theme, type ColorTheme, type ThemeColors, getThemeColors } from "@/themes"
 // import { storage } from "@/lib/utils"
-import NProgress from "nprogress"
+// import NProgress from "nprogress"
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -57,7 +57,7 @@ export function ThemeProvider({
 
     if (storedTheme) setTheme(storedTheme)
     if (storedColorTheme) setColorTheme(storedColorTheme)
-  }, [])
+  }, [storageKey])
 
   // Apply theme after initial render
   useEffect(() => {
@@ -78,15 +78,6 @@ export function ThemeProvider({
       root.style.setProperty(`--${key}`, value)
     })
     root.classList.remove("no-fouc")
-
-    // Start NProgress
-    NProgress.start()
-
-    // Simulate some delay to show the progress bar (remove this in production)
-    setTimeout(() => {
-      NProgress.done()
-    }, 500)
-
   }, [theme, colorTheme, applyTheme, isClient])
 
   // Set theme and color theme, and update localStorage

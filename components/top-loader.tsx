@@ -1,12 +1,19 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import NProgress from "nprogress"
-import { usePathname, useSearchParams } from "next/navigation"
+import { usePathname } from "next/navigation"
 
 export function TopLoader() {
     const pathname = usePathname()
-    const searchParams = useSearchParams()
+    const [searchParams, setSearchParams] = useState<URLSearchParams | null>(null)
+    // Ensure `useSearchParams` runs only on the client side
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const params = new URLSearchParams(window.location.search)
+            setSearchParams(params)
+        }
+    }, [pathname])  // Re-run when pathname changes
 
     useEffect(() => {
         NProgress.configure({ showSpinner: false })
