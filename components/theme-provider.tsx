@@ -3,6 +3,7 @@
 import type React from "react"
 import { createContext, useContext, useEffect, useState, useCallback } from "react"
 import { type Theme, type ColorTheme, type ThemeColors, getThemeColors } from "@/themes"
+// import { storage } from "@/lib/utils"
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -33,19 +34,35 @@ export function ThemeProvider({
   children,
   defaultTheme = "system",
   defaultColorTheme = "neutral",
-  storageKey = "vite-ui-theme",
+  storageKey = "shadcn-ui-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => (localStorage.getItem(`${storageKey}-mode`) as Theme) || defaultTheme)
-  const [colorTheme, setColorTheme] = useState<ColorTheme>(
-    () => (localStorage.getItem(`${storageKey}-color`) as ColorTheme) || defaultColorTheme,
-  )
+  // State to handle theme and color theme, and whether client-side JS is ready
+  const [theme, setTheme] = useState<Theme>(defaultTheme)
+  const [colorTheme, setColorTheme] = useState<ColorTheme>(defaultColorTheme)
+  const [isClient, setIsClient] = useState(false) // Flag to check if it's client-side
 
   const applyTheme = useCallback((colorTheme: ColorTheme, isDark: boolean) => {
     return getThemeColors(colorTheme, isDark ? "dark" : "light")
   }, [])
 
+  // useEffect hook to handle client-specific logic
   useEffect(() => {
+    // Ensure this runs only on the client-side
+    setIsClient(true)
+
+    // Hydration safety check: useEffect is only called after component mounts
+    const storedTheme = localStorage.getItem(`${storageKey}-mode`) as Theme
+    const storedColorTheme = localStorage.getItem(`${storageKey}-color`) as ColorTheme
+
+    if (storedTheme) setTheme(storedTheme)
+    if (storedColorTheme) setColorTheme(storedColorTheme)
+  }, [])
+
+  // Apply theme after initial render
+  useEffect(() => {
+    if (!isClient) return // Skip rendering if not on client
+
     const root = window.document.documentElement
     root.classList.remove("light", "dark")
 
@@ -60,18 +77,19 @@ export function ThemeProvider({
     Object.entries(themeColors).forEach(([key, value]) => {
       root.style.setProperty(`--${key}`, value)
     })
-  }, [theme, colorTheme, applyTheme])
+  }, [theme, colorTheme, applyTheme, isClient])
 
+  // Set theme and color theme, and update localStorage
   const value = {
     theme,
     colorTheme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(`${storageKey}-mode`, theme)
-      setTheme(theme)
+    setTheme: (newTheme: Theme) => {
+      localStorage.setItem(`${storageKey}-mode`, newTheme)
+      setTheme(newTheme)
     },
-    setColorTheme: (colorTheme: ColorTheme) => {
-      localStorage.setItem(`${storageKey}-color`, colorTheme)
-      setColorTheme(colorTheme)
+    setColorTheme: (newColorTheme: ColorTheme) => {
+      localStorage.setItem(`${storageKey}-color`, newColorTheme)
+      setColorTheme(newColorTheme)
     },
     applyTheme,
   }
@@ -90,4 +108,3 @@ export const useTheme = () => {
   }
   return context
 }
-
