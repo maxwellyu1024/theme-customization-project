@@ -25,6 +25,8 @@
 10. **与服务器端渲染（SSR）兼容**：该主题系统与 Next.js 的 SSR 功能无缝兼容。
 
 ## 演示
+![flora-3](https://github.com/user-attachments/assets/ff80a564-b651-40f9-b8a0-be8346e7f08f)
+
 ![flora-2](https://github.com/user-attachments/assets/aef5f708-c2b0-4a76-9ff1-03e57a43625c)
 
 ![主题切换演示](screenshot/theme-switching-demo.gif)
